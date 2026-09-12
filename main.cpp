@@ -92,37 +92,39 @@ class Input{
 };
 
 
+Input read_input_file(){
+
+    const Input input("job");
+
+    if (const Keyword* huckel = input.get_keyword("huckel")){
+        std::cout << "\nFound Hückel module call with " << huckel->parameters.size() << " parameters. Here they come:\n\n";
+
+        auto matrix_it = huckel->parameters.find("matrix");
+        if (matrix_it != huckel->parameters.end() && !matrix_it->second.empty()){
+            std::cout << "Matrix file:\n" << matrix_it->second[0] << "\n\n";
+        }
+
+        auto alpha_it = huckel->parameters.find("alpha");
+        if (alpha_it != huckel->parameters.end() && !alpha_it->second.empty()){
+            std::cout << "alpha value:\n" << alpha_it->second[0] << "\n\n";
+        }
+
+    }
+
+    return input;
+
+}
+
 
 int main(){
 
-    try{
-        Input input("job");
-
-        if (const Keyword* huckel = input.get_keyword("huckel")){
-            std::cout << "\nFound Hückel module call with " << huckel->parameters.size() << " parameters. Here they come:\n\n";
-
-            auto matrix_it = huckel->parameters.find("matrix");
-            if (matrix_it != huckel->parameters.end() && !matrix_it->second.empty()){
-                std::cout << "Matrix file:\n" << matrix_it->second[0] << "\n\n";
-            }
-
-            auto alpha_it = huckel->parameters.find("alpha");
-            if (alpha_it != huckel->parameters.end() && !alpha_it->second.empty()){
-                std::cout << "alpha value:\n" << alpha_it->second[0] << "\n\n";
-            }
-        }
-    } catch (const std::exception& e){
-        std::cerr << "\nError: " << e.what() << "\n\n";
-    }
+    const auto input = read_input_file();
 
     std::string debug_string;
-
     std::ifstream input_file("job");
-
     if (!input_file){
-        std::cerr << "Fatal: No input file called 'job'." << std::endl;
+        std::cerr << "Fatal in debug: No input file called 'job'." << std::endl;
     }
-
     while (std::getline(input_file, debug_string)){
         std::cout << debug_string << std::endl;
     }
