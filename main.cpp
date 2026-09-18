@@ -4,7 +4,6 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <stdexcept>
 
 
@@ -27,8 +26,6 @@ class Input{
             if (it == keyword_index_.end()) return nullptr;
             return &keywords_[it->second];
         }
-
-        [[nodiscard]] const std::vector<Keyword>& keywords() const { return keywords_; }
 
     private:
         std::vector<Keyword> keywords_;
