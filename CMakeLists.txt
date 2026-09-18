@@ -10,10 +10,14 @@ add_library(inputlib STATIC
 )
 target_include_directories(inputlib PUBLIC src/inputlib)
 
+# --- Eigen ---
+find_package(Eigen3 REQUIRED NO_MODULE)
+
 # --- main executable ---
 add_executable(fun_using_computational_chemistry
         src/main.cpp
 )
 target_link_libraries(fun_using_computational_chemistry PRIVATE
         inputlib
+        Eigen3::Eigen
 )
