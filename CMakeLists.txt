@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 26)
 add_library(inputlib STATIC
         src/inputlib/readinp.cpp
         src/inputlib/readinp.hpp
+        src/inputlib/readmat.cpp
+        src/inputlib/readmat.hpp
 )
 target_include_directories(inputlib PUBLIC src/inputlib)
 
