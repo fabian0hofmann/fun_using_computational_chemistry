@@ -32,9 +32,9 @@ class Input{
         std::map<std::string, size_t> keyword_index_;
 
         static std::string trim(const std::string& s){
-            size_t start = s.find_first_not_of(" \t\r\n");
+            const size_t start = s.find_first_not_of(" \t\r\n");
             if (start == std::string::npos) return "";
-            size_t end = s.find_last_not_of(" \t\r\n");
+            const size_t end = s.find_last_not_of(" \t\r\n");
             return s.substr(start, end - start + 1);
         }
 
