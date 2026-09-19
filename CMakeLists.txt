@@ -20,6 +20,8 @@ target_link_libraries(inputlib PUBLIC Eigen3::Eigen)
 # --- Hückel executable ---
 add_executable(fun_using_computational_chemistry
         src/huckellib/huckel_driver.cpp
+        src/huckellib/diagmat.hpp
+        src/huckellib/diagmat.cpp
 )
 target_link_libraries(fun_using_computational_chemistry PRIVATE
         inputlib
