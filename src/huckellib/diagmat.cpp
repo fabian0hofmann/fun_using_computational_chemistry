@@ -1,3 +1,7 @@
-//
-// Created by fabian on 19.09.26.
-//
+#include "diagmat.hpp"
+
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
+

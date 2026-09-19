@@ -2,6 +2,7 @@
 #include <fstream>
 #include "../inputlib/readinp.hpp"
 #include "../inputlib/readmat.hpp"
+#include "diagmat.hpp"
 
 int main() {
 
