@@ -1,8 +1,9 @@
-//
-// Created by fabian on 18.09.26.
-//
+#ifndef READMAT_HPP
+#define READMAT_HPP
 
-#ifndef FUN_USING_COMPUTATIONAL_CHEMISTRY_READMAT_HPP
-#define FUN_USING_COMPUTATIONAL_CHEMISTRY_READMAT_HPP
+#include <Eigen/Dense>
+#include <string>
 
-#endif //FUN_USING_COMPUTATIONAL_CHEMISTRY_READMAT_HPP
+Eigen::MatrixXd read_matrix(const std::string& filename);
+
+#endif //READMAT_HPP

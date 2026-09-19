@@ -3,6 +3,9 @@ project(fun_using_computational_chemistry)
 
 set(CMAKE_CXX_STANDARD 26)
 
+# --- Eigen ---
+find_package(Eigen3 REQUIRED NO_MODULE)
+
 # --- inputlib ---
 add_library(inputlib STATIC
         src/inputlib/readinp.cpp
@@ -12,12 +15,11 @@ add_library(inputlib STATIC
 )
 target_include_directories(inputlib PUBLIC src/inputlib)
 
-# --- Eigen ---
-find_package(Eigen3 REQUIRED NO_MODULE)
+target_link_libraries(inputlib PUBLIC Eigen3::Eigen)
 
 # --- main executable ---
 add_executable(fun_using_computational_chemistry
-        src/main.cpp
+        src/huckellib/main.cpp
 )
 target_link_libraries(fun_using_computational_chemistry PRIVATE
         inputlib
