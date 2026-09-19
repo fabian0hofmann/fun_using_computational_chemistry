@@ -17,11 +17,14 @@ target_include_directories(inputlib PUBLIC src/inputlib)
 
 target_link_libraries(inputlib PUBLIC Eigen3::Eigen)
 
-# --- main executable ---
+# --- Hückel executable ---
 add_executable(fun_using_computational_chemistry
         src/huckellib/huckel_driver.cpp
 )
 target_link_libraries(fun_using_computational_chemistry PRIVATE
         inputlib
         Eigen3::Eigen
+)
+set_target_properties(fun_using_computational_chemistry PROPERTIES
+        OUTPUT_NAME "huckel"
 )
