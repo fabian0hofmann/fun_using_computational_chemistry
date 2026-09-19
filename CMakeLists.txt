@@ -19,7 +19,7 @@ target_link_libraries(inputlib PUBLIC Eigen3::Eigen)
 
 # --- main executable ---
 add_executable(fun_using_computational_chemistry
-        src/huckellib/main.cpp
+        src/huckellib/huckel_driver.cpp
 )
 target_link_libraries(fun_using_computational_chemistry PRIVATE
         inputlib

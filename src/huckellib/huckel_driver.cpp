@@ -1,10 +1,13 @@
 #include <iostream>
 #include <fstream>
-#include "inputlib/readinp.hpp"
+#include "../inputlib/readinp.hpp"
+#include "../inputlib/readmat.hpp"
 
 int main() {
 
     const auto input = read_input_file();
+
+    const auto huckel_matrix = read_matrix();
 
     std::string debug_string;
     std::ifstream input_file("job");
