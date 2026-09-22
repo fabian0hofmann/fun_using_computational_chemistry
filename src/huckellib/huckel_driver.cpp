@@ -3,6 +3,7 @@
 #include "../inputlib/readinp.hpp"
 #include "../inputlib/readmat.hpp"
 #include "diagmat.hpp"
+#include "huckelout.hpp"
 
 int main() {
 
@@ -29,7 +30,9 @@ int main() {
               << huckel_matrix << "\n\n";
 
     const auto huckel_solver = diag_huckel_matrix(huckel_matrix);
-    
+
+    huckel_output(huckel_solver);
+
     std::string debug_string;
     std::ifstream input_file("job");
     if (!input_file) {
