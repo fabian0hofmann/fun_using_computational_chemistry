@@ -28,6 +28,8 @@ int main() {
     std::cout << "\nRead Hückel matrix:\n"
               << huckel_matrix << "\n\n";
 
+    const auto huckel_solver = diag_huckel_matrix(huckel_matrix);
+    
     std::string debug_string;
     std::ifstream input_file("job");
     if (!input_file) {
