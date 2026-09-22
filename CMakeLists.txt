@@ -20,6 +20,8 @@ target_link_libraries(inputlib PUBLIC Eigen3::Eigen)
 add_library(huckellib STATIC
         src/huckellib/diagmat.cpp
         src/huckellib/diagmat.hpp
+        src/huckellib/huckelout.cpp
+        src/huckellib/huckelout.hpp
 )
 target_include_directories(huckellib PUBLIC src/huckellib)
 target_link_libraries(huckellib PUBLIC Eigen3::Eigen)
