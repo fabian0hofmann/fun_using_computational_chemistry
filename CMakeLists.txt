@@ -32,6 +32,7 @@ add_executable(fun_using_computational_chemistry
 )
 target_link_libraries(fun_using_computational_chemistry PRIVATE
         inputlib
+        huckellib
         Eigen3::Eigen
 )
 set_target_properties(fun_using_computational_chemistry PROPERTIES
