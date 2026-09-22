@@ -1,6 +1,6 @@
 #include "huckelout.hpp"
 
-void huckel_output(Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_solver){
+void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_solver){
 
     std::cout << "\n\n";
     std::cout << "#################################################################################\n";
