@@ -14,8 +14,15 @@ add_library(inputlib STATIC
         src/inputlib/readmat.hpp
 )
 target_include_directories(inputlib PUBLIC src/inputlib)
-
 target_link_libraries(inputlib PUBLIC Eigen3::Eigen)
+
+# --- huckellib ---
+add_library(huckellib STATIC
+        src/huckellib/diagmat.cpp
+        src/huckellib/diagmat.hpp
+)
+target_include_directories(huckellib PUBLIC src/huckellib)
+target_link_libraries(huckellib PUBLIC Eigen3::Eigen)
 
 # --- Hückel executable ---
 add_executable(fun_using_computational_chemistry
