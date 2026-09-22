@@ -6,6 +6,7 @@
 #define FUN_USING_COMPUTATIONAL_CHEMISTRY_DIAGMAT_HPP
 
 #include <Eigen/Dense>
+#include <iostream>
 
 Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> diag_huckel_matrix(const Eigen::MatrixXd& huckel_matrix);
 
