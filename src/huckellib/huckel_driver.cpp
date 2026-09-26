@@ -7,6 +7,15 @@
 
 int main() {
 
+    std::cout << "\n\n";
+    std::cout << "#################################################################################\n";
+    std::cout << "#                                                                               #\n";
+    std::cout << "#                        FUN USING COMPUTATIONAL CHEMISTRY                      #\n";
+    std::cout << "#                                   HÜCKEL MODULE                               #\n";
+    std::cout << "#                                                                               #\n";
+    std::cout << "#################################################################################\n\n" << std::endl;
+    std::cout << "For theoretical background, consult the \"THEORY\" document. For usage information, consult the \"README\".\n\n\n";
+
     const auto input = read_input_file();
 
     const Keyword* huckel = input.get_keyword("huckel");

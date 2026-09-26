@@ -74,22 +74,29 @@ Input read_input_file() {
 
     const Input input("job");
 
+    std::cout << "\n\n";
+    std::cout << "#################################################################################\n";
+    std::cout << "#                                                                               #\n";
+    std::cout << "#                                INPUT INFORMATION                              #\n";
+    std::cout << "#                                                                               #\n";
+    std::cout << "#################################################################################\n\n\n" << std::endl;
+
     if (const Keyword* huckel = input.get_keyword("huckel")) {
-        std::cout << "\nFound Hückel module call with " << huckel->parameters.size() << " parameters. Here they come:\n\n";
+        std::cout << "Found Hückel module call with " << huckel->parameters.size() << " parameters. Here they come:\n\n";
 
         auto matrix_it = huckel->parameters.find("matrix");
         if (matrix_it != huckel->parameters.end() && !matrix_it->second.empty()) {
-            std::cout << "Matrix file:\n" << matrix_it->second[0] << "\n\n";
+            std::cout << ":: Matrix file ::\n" << matrix_it->second[0] << "\n\n";
         }
 
         auto alpha_it = huckel->parameters.find("alpha");
         if (alpha_it != huckel->parameters.end() && !alpha_it->second.empty()) {
-            std::cout << "alpha value:\n" << alpha_it->second[0] << "\n\n";
+            std::cout << ":: alpha value ::\n" << alpha_it->second[0] << "\n\n";
         }
 
         auto beta_it = huckel->parameters.find("beta");
         if (beta_it != huckel->parameters.end() && !beta_it->second.empty()){
-            std::cout << "beta value:\n" << beta_it->second[0] << "\n\n";
+            std::cout << ":: beta value ::\n" << beta_it->second[0] << "\n\n";
         }
     }
 
