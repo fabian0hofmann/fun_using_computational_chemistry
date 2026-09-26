@@ -98,6 +98,12 @@ Input read_input_file() {
         if (beta_it != huckel->parameters.end() && !beta_it->second.empty()){
             std::cout << ":: beta value ::\n" << beta_it->second[0] << "\n\n";
         }
+
+        auto electrons_it = huckel->parameters.find("electrons");
+        if (electrons_it != huckel->parameters.end() && !electrons_it->second.empty()){
+            std::cout << ":: electrons ::\n" << electrons_it->second[0] << "\n\n";
+        }
+
     }
 
     return input;
