@@ -14,7 +14,7 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
     std::cout << huckel_solver.eigenvectors() << "\n\n";
     std::cout << "----- Orbital energies -----\n\n";
     for (int i = 0; i < huckel_solver.eigenvalues().size(); i++){
-        std::cout << "  e" << i << " = " << huckel_solver.eigenvalues()[i] << "\n";
+        std::cout << "  e" << i << " = alpha + " << huckel_solver.eigenvalues()[i] << " * beta = " << alpha + beta * huckel_solver.eigenvalues()[i] << "\n";
     }
     std::cout << "\n";
     std::cout << "----- Total energy -----\n\n";
