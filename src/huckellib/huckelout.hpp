@@ -6,7 +6,11 @@
 #define FUN_USING_COMPUTATIONAL_CHEMISTRY_HUCKELOUT_HPP
 
 #include <Eigen/Dense>
+#include <cmath>
+#include <iomanip>
 #include <iostream>
+#include <string>
+#include <vector>
 
 void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_solver, const double alpha, const double beta, const int nelec);
 
