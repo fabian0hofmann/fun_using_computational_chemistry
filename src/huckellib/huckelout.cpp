@@ -30,3 +30,5 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
 
     std::cout << "END OF OUTPUT" << std::endl;
 }
+
+// give me access to this repo pls
