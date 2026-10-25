@@ -59,14 +59,5 @@ int main() {
 
     huckel_output(huckel_solver, alpha_val, beta_val, electrons_val);
 
-    std::string debug_string;
-    std::ifstream input_file("job");
-    if (!input_file) {
-        std::cerr << "Fatal in debug: No input file called 'job'." << std::endl;
-    }
-    while (std::getline(input_file, debug_string)) {
-        std::cout << debug_string << std::endl;
-    }
-
     return 0;
 }
