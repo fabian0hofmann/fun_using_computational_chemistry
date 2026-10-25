@@ -27,7 +27,7 @@ namespace {
         std::string s;
         for (size_t k = 0; k < orbitals.size(); k++){
             if (k > 0) s += ", ";
-            s += "e" + std::to_string(orbitals[k]);
+            s += "orbital number " + std::to_string(orbitals[k]);
         }
         return s;
     }
@@ -40,14 +40,17 @@ namespace {
         return orbitals;
     }
 
-    std::string signed_term(const double x){
-        const char* sign = (x < 0.0) ? "-" : "+";
-        return std::string(sign) + " " + std::to_string(std::abs(x));
+    std::string signed_term(const double x, const int precision = 4){
+        std::ostringstream oss;
+        oss << (x < 0.0 ? "- " : "+ ") << std::fixed << std::setprecision(precision) << std::abs(x);
+        return oss.str();
     }
 
 }
 
 void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_solver, const double alpha, const double beta, const int nelec){
+
+    std::cout << std::fixed << std::setprecision(4);
 
     const Eigen::VectorXd eigenvalues = huckel_solver.eigenvalues().reverse();
     const int norb = static_cast<int>(eigenvalues.size());
@@ -88,7 +91,8 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
             case 1: diagram = "[ \u2191 ]"; break;
             default: diagram = "[  ]"; break;
         }
-        std::cout << " e" << i << " = alpha " << signed_term(eigenvalues[i]) << " * beta = " << alpha + beta * eigenvalues[i] << "   occ. = " << occupation[i] << "  " << diagram << "\n";
+        const double orbital_energy = alpha + beta * eigenvalues[i];
+        std::cout << " e" << i << " = alpha " << signed_term(eigenvalues[i]) << " * beta = " << orbital_energy << "   occ. = " << occupation[i] << "  " << diagram << "\n";
     }
     std::cout << "\n";
 
@@ -110,8 +114,8 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
             else if (occupation[idx] == 1) somo_orbitals.push_back(idx);
             else empty_orbitals.push_back(idx);
         }
-        if (!homo_orbitals.empty()) std::cout << "HOMO: " << list_orbitals(homo_orbitals) << "\n";
-        if (!somo_orbitals.empty()) std::cout << "SOMO: " << list_orbitals(somo_orbitals) << "\n";
+        if (!homo_orbitals.empty()) std::cout << " HOMO: " << list_orbitals(homo_orbitals) << "\n";
+        if (!somo_orbitals.empty()) std::cout << " SOMO: " << list_orbitals(somo_orbitals) << "\n";
         if (!empty_orbitals.empty()) lumo_orbitals = empty_orbitals;
         else if (homo_level_idx + 1 < nlevels) lumo_orbitals = get_level_orbitals(levels[homo_level_idx + 1]);
     } else{
@@ -120,7 +124,7 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
     }
 
     if (!lumo_orbitals.empty()){
-        std::cout << " LUMO:" << list_orbitals(lumo_orbitals) << "\n";
+        std::cout << " LUMO: " << list_orbitals(lumo_orbitals) << "\n";
     }else{
         std::cout << " No LUMO (all orbitals occupied).\n";
     }
