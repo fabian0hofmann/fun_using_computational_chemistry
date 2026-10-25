@@ -7,6 +7,7 @@
 
 #include <Eigen/Dense>
 #include <cmath>
+#include <algoritm>
 #include <iomanip>
 #include <iostream>
 #include <string>
