@@ -23,17 +23,23 @@ namespace {
         return levels;
     }
 
-    // Returns e.g. "e2, e3, e4"
-    std::string orbital_list(const Level& level){
+    std::string list_orbitals(const std::vector<int>& orbitals){
         std::string s;
-        for (int k = 0; k < level.size; k++){
+        for (size_t k = 0; k < orbitals.size(); k++){
             if (k > 0) s += ", ";
-            s += "e" + std::to_string(level.first + k);
+            s += "e" + std::to_string(orbitals[k]);
         }
         return s;
     }
 
-    // Prints "alpha + x * beta" or "alpha - |x| * beta" depending on the sign of x
+    std::vector<int> get_level_orbitals(const Level& level){
+        std::vector<int> orbitals;
+        for (int k = 0; k < level.size; k++){
+            orbitals.push_back(level.first + k);
+        }
+        return orbitals;
+    }
+
     std::string signed_term(const double x){
         const char* sign = (x < 0.0) ? "-" : "+";
         return std::string(sign) + " " + std::to_string(std::abs(x));
@@ -43,9 +49,10 @@ namespace {
 
 void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_solver, const double alpha, const double beta, const int nelec){
 
-    const auto& eigenvalues = huckel_solver.eigenvalues().reverse();
+    const Eigen::VectorXd eigenvalues = huckel_solver.eigenvalues().reverse();
     const int norb = static_cast<int>(eigenvalues.size());
     const std::vector<Level> levels = find_levels(eigenvalues);
+    const int nlevels = static_cast<int>(levels.size());
 
     std::vector<int> occupation(norb, 0);
     int remaining = nelec;
@@ -72,7 +79,7 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
     std::cout << "----- Eigenvalues -----\n\n";
     std::cout << eigenvalues << "\n\n";
     std::cout << "----- Eigenvectors (orbitals) -----\n\n";
-    std::cout << huckel_solver.eigenvectors().reverse() << "\n\n";
+    std::cout << huckel_solver.eigenvectors().rowwise().reverse() << "\n\n";
     std::cout << "----- Orbital energies -----\n\n";
     for (int i = 0; i < norb; i++){
         std::string diagram;
@@ -85,22 +92,35 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
     }
     std::cout << "\n";
 
-    int homo = -1;
-    for (int i = 0; i < norb; i++){
-        if (occupation[i] > 0) homo = i;
+    int homo_level_idx = -1;
+    for (int i = 0; i < nlevels; i++){
+        if (occupation[levels[i].first] > 0) homo_level_idx = i;
     }
-    const int lumo = homo + 1;
 
     std::cout << "----- Frontier orbitals -----\n\n";
-    if (homo >= 0 && occupation[homo] == 2){
-        std::cout << " HOMO: e" << homo << "\n";
-    }else if (homo >= 0 && occupation[homo] == 1){
-        std::cout << " SOMO: e" << homo << "\n";
-    }else{
+
+    std::vector<int> lumo_orbitals;
+
+    if (homo_level_idx >= 0){
+        const auto& homo_level = levels[homo_level_idx];
+        std::vector<int> homo_orbitals, somo_orbitals, empty_orbitals;
+        for (int k = 0; k < homo_level.size; k++){
+            const int idx = homo_level.first + k;
+            if (occupation[idx] == 2) homo_orbitals.push_back(idx);
+            else if (occupation[idx] == 1) somo_orbitals.push_back(idx);
+            else empty_orbitals.push_back(idx);
+        }
+        if (!homo_orbitals.empty()) std::cout << "HOMO: " << list_orbitals(homo_orbitals) << "\n";
+        if (!somo_orbitals.empty()) std::cout << "SOMO: " << list_orbitals(somo_orbitals) << "\n";
+        if (!empty_orbitals.empty()) lumo_orbitals = empty_orbitals;
+        else if (homo_level_idx + 1 < nlevels) lumo_orbitals = get_level_orbitals(levels[homo_level_idx + 1]);
+    } else{
         std::cout << " HOMO: none (no electrons)\n";
+        if (nlevels > 0) lumo_orbitals = get_level_orbitals(levels[0]);
     }
-    if (lumo < norb){
-        std::cout << " LUMO: e" << lumo << "\n";
+
+    if (!lumo_orbitals.empty()){
+        std::cout << " LUMO:" << list_orbitals(lumo_orbitals) << "\n";
     }else{
         std::cout << " No LUMO (all orbitals occupied).\n";
     }
@@ -110,10 +130,10 @@ void huckel_output(const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd>& huckel_
     double alpha_factor = 0;
     double beta_factor = 0;
     double total_energy = 0;
-    for (int i = 0; i < nelec / 2; i++){
-        alpha_factor += 2;
-        beta_factor += 2 * huckel_solver.eigenvalues()[i];
-        total_energy += 2.0 * (alpha + beta * huckel_solver.eigenvalues()[i]);
+    for (int i = 0; i < norb; i++){
+        alpha_factor += occupation[i];
+        beta_factor += occupation[i] * eigenvalues[i];
+        total_energy += occupation[i] * (alpha + beta * eigenvalues[i]);
     }
     std::cout << " E_tot = " << alpha_factor << " * alpha " << signed_term(beta_factor) << " * beta = " << total_energy << "\n\n";
 
